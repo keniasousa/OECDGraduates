@@ -1,0 +1,81 @@
+---
+title       : OECD Graduates
+subtitle    : 
+author      : Kenia Sousa
+job         : 
+framework   : io2012        # {io2012, html5slides, shower, dzslides, ...}
+highlighter : highlight.js  # {highlight.js, prettify, highlight}
+hitheme     : tomorrow      # 
+widgets     : [highcharts]            # {mathjax, quiz, bootstrap}
+mode        : selfcontained # {standalone, draft}
+knit        : slidify::knit2slides
+---
+
+## The Application
+1. Shiny application that shows two charts with the quantity and percentage of graduates per country and year (Data source: OECD).
+
+2. At first, it presents the two charts for all the years from 2008 until 2012. 
+
+3. Then, it dynamically updates the two charts based on the user selection of the year.
+
+4. You can pass the mouse over the lines to see the country, year and value.
+
+5. Link to the Shiny app: https://keniasousa.shinyapps.io/shiny
+
+--- .class #id 
+
+## The Data
+
+1. The dataset on graduates counts International Standard Classification of Education (ISCED) levels, starting from level 3, which is upper secondary education.
+
+2. The dataset on population contains a mid-year population data for the 34 OECD member countries. 
+
+3. The datasets are organised to contain the last five years of data, resulting in years 2008 until 2012. Since the graduates did not contain data on all of the 34 OECD member countries, the datasets are merged to keep only the 29 countries in common.
+
+--- .class #id 
+
+## Processing the Data
+
+Here is data from the resulting dataset merging graduates and population:
+```{r echo=FALSE}
+
+graduates <- read.csv("../Data/RGRADAGE_21102015100250897.csv", sep = ",", 
+                      na.strings=c("NA",""))
+graduatesQty <- subset(graduates, select=c(COUNTRY,Country,YEAR,Value))
+graduates2008Til12 <<- subset(graduatesQty, YEAR>= 2008)
+population <- read.csv("../Data/ALFS_POP_VITAL_21102015112751678.csv", sep = ",",
+                       na.strings=c("NA",""))  
+populationStats <- subset(population, select=c(LOCATION,Country,SUBJECT,TIME,Value))
+populationStatsTotal <- subset(populationStats, SUBJECT== "YPTTTTL1_ST")
+populationStats2008Til12 <- subset(populationStatsTotal, TIME>= 2008 & TIME <=2012)
+populationStats2008Til12$Value100 <- populationStats2008Til12$Value *1000
+populationAndGraduates <- merge(populationStats2008Til12,graduates2008Til12,by.x = c("LOCATION","TIME"),by.y = c("COUNTRY","YEAR"))
+# Add percentage for proportionality in analysis of graduates
+populationAndGraduates$Percentage <- (populationAndGraduates$Value.y *100) / populationAndGraduates$Value100
+populationAndGraduates <- subset(populationAndGraduates, select=c(LOCATION,TIME,Country.x,SUBJECT, Value100, Value.y,Percentage))
+head(populationAndGraduates)
+```
+
+The percentage is calculated based on the number of graduates and population. 
+
+--- .class #id 
+
+## Proportionality of the data 
+
+Population provides a corrective measure to the statistics when analysing the countries with more graduates. For instance, with quantity, the USA has a high number of graduates due to its large population. But with propotionality, we see that Ireland, Finland and Austria have a higher proportion of graduates than the USA, to name a few.
+
+```{r results = 'asis', commment = NA, message = F, echo = F}
+require(rCharts)
+options(RCHART_WIDTH = 800, RCHART_HEIGHT = 500)
+h2 <- hPlot(x = "LOCATION", y = "Percentage", group = "TIME", data = populationAndGraduates,type = 'line')
+h2$print('chart1')
+```
+
+
+
+
+
+
+
+
+

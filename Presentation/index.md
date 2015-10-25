@@ -1,0 +1,751 @@
+---
+title       : OECD Graduates
+subtitle    : 
+author      : Kenia Sousa
+job         : 
+framework   : io2012        # {io2012, html5slides, shower, dzslides, ...}
+highlighter : highlight.js  # {highlight.js, prettify, highlight}
+hitheme     : tomorrow      # 
+widgets     : [highcharts]            # {mathjax, quiz, bootstrap}
+mode        : selfcontained # {standalone, draft}
+knit        : slidify::knit2slides
+---
+
+## The Application
+1. Shiny application that shows two charts with the quantity and percentage of graduates per country and year (Data source: OECD).
+
+2. At first, it presents the two charts for all the years from 2008 until 2012. 
+
+3. Then, it dynamically updates the two charts based on the user selection of the year.
+
+4. You can pass the mouse over the lines to see the country, year and value.
+
+5. Link to the Shiny app: https://keniasousa.shinyapps.io/shiny
+
+--- .class #id 
+
+## The Data
+
+1. The dataset on graduates counts International Standard Classification of Education (ISCED) levels, starting from level 3, which is upper secondary education.
+
+2. The dataset on population contains a mid-year population data for the 34 OECD member countries. 
+
+3. The datasets are organised to contain the last five years of data, resulting in years 2008 until 2012. Since the graduates did not contain data on all of the 34 OECD member countries, the datasets are merged to keep only the 29 countries in common.
+
+--- .class #id 
+
+## Processing the Data
+
+Here is data from the resulting dataset merging graduates and population:
+
+```
+##   LOCATION TIME Country.x     SUBJECT Value100 Value.y Percentage
+## 1      AUS 2008 Australia YPTTTTL1_ST 21249000  311365   1.465316
+## 2      AUS 2009 Australia YPTTTTL1_ST 21692000  333289   1.536460
+## 3      AUS 2010 Australia YPTTTTL1_ST 22032000  361652   1.641485
+## 4      AUS 2011 Australia YPTTTTL1_ST 22340000  375204   1.679517
+## 5      AUS 2012 Australia YPTTTTL1_ST 22724000  402162   1.769768
+## 6      AUT 2008   Austria YPTTTTL1_ST  8321541   93031   1.117954
+```
+
+The percentage is calculated based on the number of graduates and population. 
+
+--- .class #id 
+
+## Proportionality of the data 
+
+Population provides a corrective measure to the statistics when analysing the countries with more graduates. For instance, with quantity, the USA has a high number of graduates due to its large population. But with propotionality, we see that Ireland, Finland and Austria have a higher proportion of graduates than the USA, to name a few.
+
+
+<div id = 'chart1' class = 'rChart highcharts'></div>
+<script type='text/javascript'>
+    (function($){
+        $(function () {
+            var chart = new Highcharts.Chart({
+ "dom": "chart1",
+"width":            800,
+"height":            500,
+"credits": {
+ "href": null,
+"text": null 
+},
+"exporting": {
+ "enabled": false 
+},
+"title": {
+ "text": null 
+},
+"yAxis": [
+ {
+ "title": {
+ "text": "Percentage" 
+} 
+} 
+],
+"series": [
+ {
+ "data": [
+ [
+ "AUS",
+1.465316014871 
+],
+[
+ "AUT",
+1.117953994338 
+],
+[
+ "BEL",
+1.298631088602 
+],
+[
+ "CAN",
+1.106692366751 
+],
+[
+ "CHE",
+1.192205474213 
+],
+[
+ "CZE",
+1.084241238234 
+],
+[
+ "DEU",
+1.170194253363 
+],
+[
+ "DNK",
+1.159071585026 
+],
+[
+ "ESP",
+0.8201370196966 
+],
+[
+ "FIN",
+1.668680594768 
+],
+[
+ "FRA",
+1.498795591481 
+],
+[
+ "GBR",
+1.202240353485 
+],
+[
+ "GRC",
+0.9578133381012 
+],
+[
+ "HUN",
+1.013956963539 
+],
+[
+ "IRL",
+1.694990078259 
+],
+[
+ "ISL",
+1.745393057882 
+],
+[
+ "ITA",
+1.004889709988 
+],
+[
+ "JPN",
+0.918521912101 
+],
+[
+ "KOR",
+1.195230925438 
+],
+[
+ "LUX",
+0.8579991732121 
+],
+[
+ "MEX",
+0.8184880367299 
+],
+[
+ "NLD",
+1.296207676344 
+],
+[
+ "NOR",
+ 1.32072147651 
+],
+[
+ "NZL",
+ 1.59191848208 
+],
+[
+ "POL",
+1.351036310211 
+],
+[
+ "PRT",
+0.7274075645613 
+],
+[
+ "SVK",
+1.357033866545 
+],
+[
+ "SWE",
+  1.0045406343 
+],
+[
+ "TUR",
+0.4528267311906 
+],
+[
+ "USA",
+1.092267522542 
+] 
+],
+"name": "2008",
+"type": "line",
+"marker": {
+ "radius":              3 
+} 
+},
+{
+ "data": [
+ [
+ "AUS",
+1.536460446247 
+],
+[
+ "AUT",
+1.124044729217 
+],
+[
+ "BEL",
+1.313658420468 
+],
+[
+ "CAN",
+ 1.07299334567 
+],
+[
+ "CHE",
+1.203319132352 
+],
+[
+ "CZE",
+1.051223420124 
+],
+[
+ "DEU",
+1.009244945302 
+],
+[
+ "DNK",
+1.222738559221 
+],
+[
+ "ESP",
+0.8468681222105 
+],
+[
+ "FIN",
+1.729593556846 
+],
+[
+ "FRA",
+ 1.49174317465 
+],
+[
+ "GBR",
+             0 
+],
+[
+ "HUN",
+ 1.10965778709 
+],
+[
+ "IRL",
+1.677769444567 
+],
+[
+ "ISL",
+1.810202790325 
+],
+[
+ "ITA",
+0.9569515365973 
+],
+[
+ "JPN",
+0.9016124225551 
+],
+[
+ "KOR",
+ 1.18198228459 
+],
+[
+ "LUX",
+0.8464032421479 
+],
+[
+ "MEX",
+0.832884665484 
+],
+[
+ "NLD",
+ 1.36217596802 
+],
+[
+ "NOR",
+ 1.30067433936 
+],
+[
+ "NZL",
+1.851320667285 
+],
+[
+ "POL",
+1.335100778445 
+],
+[
+ "PRT",
+1.217429564971 
+],
+[
+ "SVK",
+1.326561964798 
+],
+[
+ "SWE",
+1.043865718759 
+],
+[
+ "TUR",
+0.7619379448967 
+],
+[
+ "USA",
+ 1.08523118999 
+] 
+],
+"name": "2009",
+"type": "line",
+"marker": {
+ "radius":              3 
+} 
+},
+{
+ "data": [
+ [
+ "AUS",
+1.641485112564 
+],
+[
+ "AUT",
+1.152472249661 
+],
+[
+ "BEL",
+1.304326724522 
+],
+[
+ "CAN",
+  1.0943389238 
+],
+[
+ "CHE",
+1.266854625145 
+],
+[
+ "CZE",
+0.991647056027 
+],
+[
+ "DEU",
+ 1.03447761121 
+],
+[
+ "DNK",
+1.269593089584 
+],
+[
+ "ESP",
+0.874807355622 
+],
+[
+ "FIN",
+1.723084094723 
+],
+[
+ "FRA",
+1.496242954497 
+],
+[
+ "GBR",
+ 1.15144773735 
+],
+[
+ "GRC",
+0.9916793687797 
+],
+[
+ "HUN",
+       1.09225 
+],
+[
+ "IRL",
+1.748287520857 
+],
+[
+ "ISL",
+1.825437255901 
+],
+[
+ "ITA",
+0.974505908399 
+],
+[
+ "JPN",
+0.9044862834519 
+],
+[
+ "KOR",
+1.292030397668 
+],
+[
+ "LUX",
+0.8420633339972 
+],
+[
+ "MEX",
+0.8558915274175 
+],
+[
+ "NLD",
+1.551001812175 
+],
+[
+ "NOR",
+1.272775618736 
+],
+[
+ "NZL",
+             0 
+],
+[
+ "POL",
+1.287600280396 
+],
+[
+ "PRT",
+1.303827638063 
+],
+[
+ "SVK",
+1.342167603833 
+],
+[
+ "SWE",
+1.058079194074 
+],
+[
+ "TUR",
+0.9063091527936 
+],
+[
+ "USA",
+1.073746396604 
+] 
+],
+"name": "2010",
+"type": "line",
+"marker": {
+ "radius":              3 
+} 
+},
+{
+ "data": [
+ [
+ "AUS",
+ 1.67951656222 
+],
+[
+ "AUT",
+1.121089811402 
+],
+[
+ "BEL",
+1.267055524478 
+],
+[
+ "CAN",
+1.119015148483 
+],
+[
+ "CHE",
+1.275201272737 
+],
+[
+ "CZE",
+0.9771575175746 
+],
+[
+ "DEU",
+1.064043936151 
+],
+[
+ "DNK",
+1.325806398338 
+],
+[
+ "ESP",
+0.9760194760984 
+],
+[
+ "FIN",
+1.791295471418 
+],
+[
+ "FRA",
+1.532182193993 
+],
+[
+ "GBR",
+1.098633564615 
+],
+[
+ "GRC",
+1.035598705502 
+],
+[
+ "HUN",
+1.081077015644 
+],
+[
+ "IRL",
+1.795733240071 
+],
+[
+ "ITA",
+1.004478903595 
+],
+[
+ "JPN",
+0.9012042347749 
+],
+[
+ "KOR",
+1.312967763398 
+],
+[
+ "LUX",
+0.8714341539664 
+],
+[
+ "MEX",
+0.8742813328504 
+],
+[
+ "NLD",
+1.425735350058 
+],
+[
+ "NOR",
+1.266484958611 
+],
+[
+ "NZL",
+             0 
+],
+[
+ "POL",
+ 1.27445361574 
+],
+[
+ "PRT",
+1.051568733685 
+],
+[
+ "SVK",
+1.292609047448 
+],
+[
+ "SWE",
+1.046499962113 
+],
+[
+ "TUR",
+0.9518693709806 
+],
+[
+ "USA",
+1.092140575244 
+] 
+],
+"name": "2011",
+"type": "line",
+"marker": {
+ "radius":              3 
+} 
+},
+{
+ "data": [
+ [
+ "AUS",
+1.769767646541 
+],
+[
+ "AUT",
+1.120241111442 
+],
+[
+ "BEL",
+1.226077775032 
+],
+[
+ "CAN",
+ 1.11099614713 
+],
+[
+ "CHE",
+1.266684515337 
+],
+[
+ "CZE",
+0.9602266185442 
+],
+[
+ "DEU",
+1.020557872377 
+],
+[
+ "DNK",
+1.377930928905 
+],
+[
+ "ESP",
+0.9363923671696 
+],
+[
+ "FIN",
+ 1.76045437754 
+],
+[
+ "FRA",
+1.596600749441 
+],
+[
+ "GBR",
+ 1.10685032572 
+],
+[
+ "GRC",
+1.035807033363 
+],
+[
+ "HUN",
+1.150171370968 
+],
+[
+ "IRL",
+1.846709120251 
+],
+[
+ "ISL",
+1.965601965602 
+],
+[
+ "ITA",
+0.9901861547033 
+],
+[
+ "JPN",
+0.8995451515508 
+],
+[
+ "KOR",
+1.283690008327 
+],
+[
+ "LUX",
+0.9258906458373 
+],
+[
+ "MEX",
+0.8899856305391 
+],
+[
+ "NLD",
+1.459782655405 
+],
+[
+ "NOR",
+ 1.22458657103 
+],
+[
+ "NZL",
+1.206316264381 
+],
+[
+ "POL",
+1.236694866871 
+],
+[
+ "PRT",
+1.095889238448 
+],
+[
+ "SVK",
+1.258825807261 
+],
+[
+ "SWE",
+ 1.02639102109 
+],
+[
+ "TUR",
+0.9480467325735 
+],
+[
+ "USA",
+1.085901749653 
+] 
+],
+"name": "2012",
+"type": "line",
+"marker": {
+ "radius":              3 
+} 
+} 
+],
+"xAxis": [
+ {
+ "title": {
+ "text": "LOCATION" 
+},
+"categories": [ "AUS", "AUT", "BEL", "CAN", "CHE", "CZE", "DEU", "DNK", "ESP", "FIN", "FRA", "GBR", "GRC", "HUN", "IRL", "ISL", "ITA", "JPN", "KOR", "LUX", "MEX", "NLD", "NOR", "NZL", "POL", "PRT", "SVK", "SWE", "TUR", "USA" ] 
+} 
+],
+"subtitle": {
+ "text": null 
+},
+"id": "chart1",
+"chart": {
+ "renderTo": "chart1" 
+} 
+});
+        });
+    })(jQuery);
+</script>
+
+
+
+
+
+
+
+
+
