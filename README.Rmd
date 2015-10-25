@@ -1,0 +1,27 @@
+---
+title: "Graduates per Country and Year"
+author: "Kenia Sousa"
+date: "25 Oct 2015"
+output: html_document
+---
+
+This repo contains a Shiny application that shows data from OECD concerning graduates and population per Country and Year.
+
+The original file from OECD for graduates is on the address: <http://stats.oecd.org/viewhtml.aspx?datasetcode=RGRADAGE&lang=en>
+The original file from OECD for Population is on the address:  <http://stats.oecd.org/viewhtml.aspx?datasetcode=ALFS_POP_VITAL&lang=en>
+
+The dataset on graduates counts  ISCED starting from level 3, which is upper seconddary education.
+
+The dataset on population contains a mid-year population data for the 34 OECD member countries. 
+
+The datasets are subset to contain the last five years of data, resulting in years 2008 until 2012. Since the graduates did not contain data on all of the 34 OECD member countries, the datasets are merged to keep only the countries in common.
+
+This repo contains two files for the datasets and three files for the source code. The two files for the dataset are copied in the repo and available in the OECD pages listed above. The three files for the source code are:
+
+- global.R - reads and manipulates the data so it is accessible for both ui.R and server.R
+- ui.R - contains one component, which is a select box used to select the year and a space to dynamically place the generated charts.
+- server.R - Present the two charts for all the years at first. Then, dynamically update the two charts based on the user selection of the year.
+
+The first chart shows the quantity of graduates per country and year. 
+
+The second chart shows the percentage of graduates per country and year. The percentage is calculated based on the number of graduates and population. Population is needed to provide proportionality, a corrective measure to give fairness to the statistics when analysing the countries with more graduates. For instance, with quantity, the USA has a high number of graduates due to its large population. But with propotionality, we see that Ireland, Finland and Austria have a higher proportion of graduates than the USA, to name a few.
